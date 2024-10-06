@@ -1,0 +1,40 @@
+{% extends 'ushqim/base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="about">
+        <h2>Our Story</h2>
+        <p>Our story begins in Rabdishtë, a small village nestled in the mountains of the Dibër region. For generations, our family has shared meals rooted in Albanian tradition, using fresh, local ingredients from our fshat. In 1998, we embarked on a journey across the Atlantic to bring a taste of our homeland to the Bronx. We arrived with a few cherished recipes and a deep passion for sharing our culture through food. Today, Ushqim is more than a restaurant—it's our way of welcoming you into our family. Each dish is crafted with the same love and care that filled our village home, inviting you to experience the warmth and flavors of Albania.</p>
+        <img src="{% static 'images/merlin_151729362_ccedd9d8-4fe0-4897-b1b6-1208614a66d4-superJumbo.jpg' %}" alt="Family cooking" class="about-img">
+    </section>
+
+    <section class="highlights">
+        <h2>Menu Highlights</h2>
+        <div class="menu-items">
+            <div class="menu-item">
+                <img src="{% static 'images/Byrek-me-Qepe-dhe-Domate_7613-1-scaled.jpg' %}" alt="Byrek">
+                <h3>Byrek</h3>
+                <p>Flaky pastry filled with savory meat or cheese.</p>
+            </div>
+            <div class="menu-item">
+                <img src="{% static 'images/kadaif-recipe-SofiGjorceska-4-1200x900.jpg' %}" alt="Kadaif">
+                <h3>Kadaif</h3>
+                <p>Delicate dessert made with shredded phyllo and nuts.</p>
+            </div>
+            <div class="menu-item">
+                <img src="{% static 'images/Baklava-8-crop-scaled.jpg' %}" alt="Baklava">
+                <h3>Baklava</h3>
+                <p>Sweet layers of phyllo filled with nuts and honey syrup.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="location">
+        <h2>Location & Hours</h2>
+        <ul>
+            <li>Location: 7 Gjergj Kastrioti Skenderbeu Way, Bronx, NY</li>
+            <br>
+            <li>Hours: Mon-Sat, 11 AM - 9 PM</li>
+        </ul>
+    </section>
+{% endblock %}

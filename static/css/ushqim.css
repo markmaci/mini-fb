@@ -1,0 +1,207 @@
+@font-face {
+    font-family: 'Fredericka the Great';
+    src: url('../fonts/FrederickatheGreat-Regular.ttf') format('truetype');
+}
+
+/* Use the custom font for headers and main titles */
+h1, h2 {
+    font-family: 'Fredericka the Great', serif;
+}
+
+/* Fallback font for general text */
+body {
+    font-family: Arial, sans-serif;
+}
+
+
+/* Global Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f5f1; /* You can adjust this color */
+    color: #333; /* Dark text to contrast the lighter background */
+}
+
+/* Header Styling with Red and Black Accents */
+header {
+    background-color: #e63946; /* Albanian red */
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header .hero h1 {
+    font-size: 3em;
+    margin-bottom: 0.2em;
+    font-family: 'Fredericka the Great', serif; /* Apply custom font */
+}
+
+header .hero p {
+    font-size: 1.5em;
+    font-weight: 300;
+    color: #fff; /* White text to contrast the red background */
+}
+
+/* Navigation */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff; /* White links */
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #000; /* Black on hover */
+}
+
+/* Content Styling */
+.content {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: #fff; /* White content background */
+    border-radius: 8px; /* Rounded corners */
+}
+
+/* About Section */
+.about {
+    margin-top: 40px;
+    text-align: center;
+    color: #333; /* Darker text */
+}
+
+.about-img {
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 3px solid #e63946; /* Red border */
+}
+
+/* Menu Highlights */
+.highlights {
+    margin-top: 40px;
+    text-align: center;
+    color: #333;
+}
+
+.menu-items {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.menu-item {
+    margin: 20px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.menu-item img {
+    width: 100%;
+    border-radius: 10px;
+    border: 3px solid #e63946; /* Red border around images */
+}
+
+.menu-item h3 {
+    margin: 10px 0;
+    color: #e63946; /* Red heading text */
+    font-family: 'Fredericka the Great', serif; /* Apply custom font */
+}
+
+/* Location Section */
+.location {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: #333; /* Black background */
+    color: #fff; /* White text */
+    padding: 10px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #e63946; /* Red links */
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Order Form Styling */
+.order-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.form-group ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.form-group li {
+    margin-bottom: 10px;
+}
+
+.submit-btn {
+    background-color: #e63946;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #333;
+}
+

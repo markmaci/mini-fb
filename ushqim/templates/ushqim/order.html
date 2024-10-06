@@ -1,0 +1,62 @@
+{% extends 'ushqim/base.html' %}
+
+{% block content %}
+    <div class="order-container">
+        <h2>Place Your Order</h2>
+        <form method="POST" action="{% url 'ushqim:confirmation' %}" class="order-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="items">Select Your Items:</label>
+                <ul>
+                    <li>
+                        <label><input type="checkbox" name="item" value="burek"> Burek ($5)</label>
+                        <div class="form-group">
+                            <label for="burek_options">Choose Filling:</label>
+                            <select name="burek_option">
+                                <option value="cheese">Cheese</option>
+                                <option value="spinach">Spinach</option>
+                                <option value="meat">Meat</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label><input type="checkbox" name="item" value="kadaif"> Kadaif ($4)</label>
+                    </li>
+                    <li>
+                        <label><input type="checkbox" name="item" value="baklava"> Baklava ($3)</label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="item" value="{{ daily_special.name }}"> 
+                            Daily Special: {{ daily_special.name }} ($6) - {{ daily_special.details }}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="instructions">Special Instructions:</label>
+                <textarea name="instructions"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit Order" class="submit-btn">
+            </div>
+        </form>
+    </div>
+{% endblock %}

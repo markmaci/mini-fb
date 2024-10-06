@@ -1,0 +1,11 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+    <h2>All Quotes</h2>
+    {% for quote in quotes %}
+        <div class="quote-item">
+            <p>"{{ quote.text }}"</p>
+            <p><em>{{ quote.era }}</em></p>
+        </div>
+    {% endfor %}
+{% endblock %}

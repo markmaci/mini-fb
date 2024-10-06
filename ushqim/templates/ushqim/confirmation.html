@@ -1,0 +1,19 @@
+<h2>Order Confirmation</h2>
+<p>Thank you, {{ name }}!</p>
+<p>Your order:</p>
+<ul>
+    {% for item in items %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+<p>Total price: ${{ total }}</p>
+<p>Your order will be ready at approximately {{ ready_time }}.</p>
+<h3>Customer Information</h3>
+<ul>
+    <li>Name: {{ name }}</li>
+    <li>Phone: {{ phone }}</li>
+    <li>Email: {{ email }}</li>
+</ul>
+{% if instructions %}
+    <p>Special Instructions: {{ instructions }}</p>
+{% endif %}

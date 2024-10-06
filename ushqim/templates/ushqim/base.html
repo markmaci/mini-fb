@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ushqim Restaurant</title>
+    <link rel="stylesheet" href="{% static 'css/ushqim.css' %}">
+</head>
+<body>
+    <header>
+        <div class="hero">
+            <h1>Welcome to Ushqim</h1>
+            <p>Your destination for authentic Albanian cuisine in the Bronx</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'ushqim:main' %}">Home</a></li>
+                <li><a href="{% url 'ushqim:order' %}">Order</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ushqim Restaurant</p>
+    </footer>
+</body>
+</html>

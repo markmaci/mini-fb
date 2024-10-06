@@ -1,0 +1,17 @@
+{% extends 'quotes/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="quote-container">
+    <p class="intro-text">A long time ago in a galaxy far, far away....</p>
+    <div class="quote-content">
+        <img src="{% static quote.image %}" alt="Obi-Wan Kenobi" class="quote-image" style="max-width: 45%; height: auto;">
+        <p class="quote-text">"{{ quote.text }}"</p>
+        {% if quote.era %}
+            <p class="quote-era">({{ quote.era }})</p>
+        {% endif %}
+    </div>
+</div>
+
+<a href="{% url 'quote' %}" id="change-quote-btn">Change Quote</a>
+{% endblock %}

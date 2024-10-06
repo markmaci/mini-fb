@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Obi-Wan Quotes{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/starwars.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Obi-Wan Kenobi Quotes</h1>
+        <nav>
+            <a href="{% url 'quote' %}">Home</a>
+            <a href="{% url 'show_all' %}">Show All</a>
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <br>
+        <br>
+        <br>
+        <p>&copy; Mark Maci</p>
+    </footer>
+</body>
+</html>
