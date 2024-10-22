@@ -1,10 +1,18 @@
 {% extends 'mini_fb/base.html' %}
+{% load static %}
 
 {% block content %}
 <h2>Post a New Status Message</h2>
-<form method="POST" class="status-form">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Post</button>
+    <div>
+        {{ form.message.label_tag }}
+        {{ form.message }}
+    </div>
+    <div>
+        {{ form.files.label_tag }}
+        {{ form.files }}
+    </div>
+    <button type="submit">Post Status</button>
 </form>
 {% endblock %}

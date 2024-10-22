@@ -3,11 +3,17 @@
     src: url('../fonts/klavika-medium.otf') format('opentype');
 }
 
-body {
-    font-family: 'Klavika', Arial, sans-serif;
-    background-color: #f0f2f5;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Klavika', Arial, sans-serif;
+    background-color: #f0f2f5;
 }
 
 header {
@@ -21,6 +27,7 @@ header {
     justify-content: space-between;
     height: 60px;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 nav a {
@@ -36,23 +43,40 @@ nav a:hover {
 }
 
 main {
+    flex: 1;
     padding: 20px;
-    max-width: 1000px;
+    padding-bottom: 100px;
+    max-width: 1400px;
+    width: 80%;
     margin: 20px auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.links {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.links a {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 16px;
 }
 
 footer {
     text-align: center;
     padding: 15px;
-    margin-top: 20px;
     color: #777;
     background-color: #f0f2f5;
     position: fixed;
     width: 100%;
     bottom: 0;
+    flex-shrink: 0;
+    z-index: 1000; 
 }
 
 table {
@@ -194,7 +218,7 @@ a:hover {
 
 form.profile-form,
 form.status-form {
-    max-width: 500px;
+    max-width: 700px;
     margin: 20px auto;
     padding: 20px;
     background-color: #f0f2f5;
@@ -203,6 +227,7 @@ form.status-form {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: auto;
 }
+
 
 form.profile-form button,
 form.status-form button {
@@ -235,4 +260,39 @@ form.status-form button:hover {
         width: 80px;
         height: 80px;
     }
+}
+
+.status-images {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.status-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border: 2px solid #4267b2;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+@media (max-width: 768px) {
+    .status-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .status-image {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.status-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

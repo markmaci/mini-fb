@@ -5,6 +5,7 @@
         <h2>Place Your Order</h2>
         <form method="POST" action="{% url 'ushqim:confirmation' %}" class="order-form">
             {% csrf_token %}
+            {{ form.as_p }}
             <div class="form-group">
                 <label for="items">Select Your Items:</label>
                 <ul>
