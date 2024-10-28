@@ -1,0 +1,33 @@
+{# mini_fb/templates/mini_fb/friend_suggestions.html #}
+{% extends 'mini_fb/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Friend Suggestions for {{ profile.first_name }} {{ profile.last_name }}</h2>
+
+{% if suggestions %}
+    <ul class="friend-suggestions">
+        {% for suggestion in suggestions %}
+            <li>
+                <div class="author-details">
+                    <img src="{{ suggestion.profile_image_url }}" alt="{{ suggestion.first_name }} {{ suggestion.last_name }}'s Profile Image" class="profile-image-small">
+                    <a href="{% url 'mini_fb:show_profile' suggestion.id %}">
+                        {{ suggestion.first_name }} {{ suggestion.last_name }}
+                    </a>
+                    <span class="mutual-friends">Mutual Friends: {{ suggestion.mutual_friends }}</span>
+                </div>
+                <div class="action">
+                    <form action="{% url 'mini_fb:add_friend' profile.id suggestion.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Add Friend</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No friend suggestions available at the moment.</p>
+{% endif %}
+
+<a href="{% url 'mini_fb:show_profile' profile.id %}">Back to Profile</a>
+{% endblock %}

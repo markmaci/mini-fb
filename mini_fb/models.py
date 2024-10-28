@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=30)
@@ -50,6 +50,20 @@ class Profile(models.Model):
         news_feed = StatusMessage.objects.filter(profile__in=profiles).order_by('-timestamp')
         
         return news_feed
+
+    def get_friend_suggestions(self):
+        current_friends = self.get_friends()
+        current_friends_ids = [friend.id for friend in current_friends]
+        current_friends_ids.append(self.id)
+
+        suggestions = Profile.objects.exclude(id__in=current_friends_ids).annotate(
+            mutual_friends=Count(
+                'friend_profile1__profile2',
+                filter=Q(friend_profile1__profile2__in=current_friends)
+            )
+        ).order_by('-mutual_friends')[:10]
+
+        return suggestions
 
 class Friend(models.Model):
     profile1 = models.ForeignKey(Profile, related_name='friend_profile1', on_delete=models.CASCADE)

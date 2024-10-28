@@ -109,3 +109,27 @@ class ShowNewsFeedView(DetailView):
         profile = self.object
         context['news_feed'] = profile.get_news_feed()
         return context
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        suggestions = profile.get_friend_suggestions()
+        context['suggestions'] = suggestions
+        return context
+
+class AddFriendView(View):
+    def post(self, request, pk, other_pk):
+        profile = get_object_or_404(Profile, pk=pk)
+        other_profile = get_object_or_404(Profile, pk=other_pk)
+        
+        if profile.add_friend(other_profile):
+            messages.success(request, f"You are now friends with {other_profile.first_name} {other_profile.last_name}!")
+        else:
+            messages.info(request, f"You are already friends with {other_profile.first_name} {other_profile.last_name}, or cannot add yourself.")
+        
+        return redirect(reverse('mini_fb:show_friend_suggestions', args=[pk]))

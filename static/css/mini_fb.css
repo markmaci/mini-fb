@@ -383,3 +383,107 @@ form.status-form button:hover {
         font-size: 0.95em;
     }
 }
+
+.friend-suggestions-link {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-suggestions-link li {
+    margin-bottom: 10px;
+}
+
+.friend-suggestions-link a {
+    background-color: #4267b2;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.friend-suggestions-link a:hover {
+    background-color: #365899;
+}
+
+.friend-suggestions {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-suggestions li {
+    background-color: #f0f2f5;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #4267b2;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.author-details {
+    display: flex;
+    align-items: center;
+}
+
+.author-details a {
+    font-weight: bold;
+    color: #4267b2;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.mutual-friends {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.action form {
+    margin: 0;
+}
+
+.action button {
+    background-color: #4267b2;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.action button:hover {
+    background-color: #365899;
+}
+
+/* Messages Styles */
+.messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+.messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.messages li.info {
+    background-color: #cce5ff;
+    color: #004085;
+}
