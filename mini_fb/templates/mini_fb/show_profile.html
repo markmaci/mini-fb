@@ -25,6 +25,35 @@
     </table>
 </div>
 
+<h3>Friends</h3>
+<ul class="friends-list">
+    {% for friend in profile.get_friends %}
+        <li>
+            <a href="{% url 'mini_fb:show_profile' friend.pk %}">
+                {{ friend.first_name }} {{ friend.last_name }}
+            </a>
+        </li>
+    {% empty %}
+        <li>No friends yet.</li>
+    {% endfor %}
+</ul>
+
+<h3>All Other Profiles</h3>
+<ul class="other-profiles-list">
+    {% for other_profile in all_profiles %}
+        {% if other_profile != profile and other_profile not in profile.get_friends %}
+            <li>
+                <a href="{% url 'mini_fb:show_profile' other_profile.pk %}">
+                    {{ other_profile.first_name }} {{ other_profile.last_name }}
+                </a>
+                - <a href="{% url 'mini_fb:add_friend' profile.pk other_profile.pk %}">Add Friend</a>
+            </li>
+        {% endif %}
+    {% empty %}
+        <li>No other profiles available.</li>
+    {% endfor %}
+</ul>
+
 <h3>Status Messages</h3>
 <ul class="status-messages">
     {% for status in profile.get_status_messages %}
@@ -54,5 +83,7 @@
     <a href="{% url 'mini_fb:create_status' profile.pk %}">Post a New Status Message</a>
     <br>
     <a href="{% url 'mini_fb:update_profile' profile.pk %}">Edit Profile</a>
+    <br>
+    <a href="{% url 'mini_fb:show_news_feed' profile.pk %}">View News Feed</a>
 </div>
 {% endblock %}

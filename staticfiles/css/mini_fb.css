@@ -296,3 +296,90 @@ form.status-form button:hover {
     transition: transform 0.2s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.messages {
+    margin: 20px;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.news-feed {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-message {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f0f2f5;
+}
+
+.author-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #4267b2;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.timestamp {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #777;
+}
+.message-content p {
+    font-size: 1em;
+    margin: 5px 0;
+    color: #333;
+}
+
+.news-feed .status-images {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .news-feed {
+        max-width: 100%;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .profile-image-small {
+        width: 40px;
+        height: 40px;
+    }
+
+    .message-content p {
+        font-size: 0.95em;
+    }
+}

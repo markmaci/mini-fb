@@ -1,10 +1,12 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 # Create your views here.
 
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, UpdateView
 from django.urls import reverse
-from .models import Image, Profile, StatusMessage
+from .models import Image, Profile, StatusMessage, Friend
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
 
@@ -17,6 +19,11 @@ class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_profiles'] = Profile.objects.exclude(pk=self.object.pk)
+        return context
 
 class CreateProfileView(CreateView):
     model = Profile
@@ -77,4 +84,28 @@ class UpdateStatusMessageView(UpdateView):
 
     def get_success_url(self):
         return reverse('mini_fb:show_profile', args=[self.object.profile.pk])
+    
+class CreateFriendView(View):
+    def get(self, request, pk, other_pk, *args, **kwargs):
+        profile = get_object_or_404(Profile, pk=pk)
+        other_profile = get_object_or_404(Profile, pk=other_pk)
+        
+        friendship_created = profile.add_friend(other_profile)
+        
+        if friendship_created:
+            messages.success(request, f"You are now friends with {other_profile.first_name} {other_profile.last_name}!")
+        else:
+            messages.error(request, "Cannot add this friend. They may already be your friend or you cannot add yourself.")
+        
+        return redirect('mini_fb:show_profile', pk=pk)
+    
+class ShowNewsFeedView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'profile'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.object
+        context['news_feed'] = profile.get_news_feed()
+        return context
