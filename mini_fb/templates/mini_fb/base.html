@@ -20,7 +20,24 @@
         <h1>Mini Facebook</h1>
         <nav>
             <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
-            <a href="{% url 'mini_fb:create_profile' %}">Create New Profile</a>
+            {% if user.is_authenticated %}
+                {% if user.profile %}
+                    <a href="{% url 'mini_fb:show_profile' user.profile.pk %}">My Profile</a>
+                    <a href="{% url 'mini_fb:update_profile' %}">Edit Profile</a>
+                    <a href="{% url 'mini_fb:create_status' %}">Post Status</a>
+                    <a href="{% url 'mini_fb:show_news_feed' %}">News Feed</a>
+                    <a href="{% url 'mini_fb:friend_suggestions' %}">Friend Suggestions</a>
+                {% else %}
+                    <a href="{% url 'mini_fb:create_profile' %}">Create Profile</a>
+                {% endif %}
+                <form action="{% url 'mini_fb:logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'mini_fb:login' %}">Login</a>
+                <a href="{% url 'mini_fb:create_profile' %}">Register</a>
+            {% endif %}
         </nav>
     </header>
 

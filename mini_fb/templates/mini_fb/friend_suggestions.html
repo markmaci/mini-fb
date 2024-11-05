@@ -1,4 +1,3 @@
-{# mini_fb/templates/mini_fb/friend_suggestions.html #}
 {% extends 'mini_fb/base.html' %}
 {% load static %}
 
@@ -17,7 +16,7 @@
                     <span class="mutual-friends">Mutual Friends: {{ suggestion.mutual_friends }}</span>
                 </div>
                 <div class="action">
-                    <form action="{% url 'mini_fb:add_friend' profile.id suggestion.id %}" method="POST">
+                    <form action="{% url 'mini_fb:add_friend' suggestion.id %}" method="POST">
                         {% csrf_token %}
                         <button type="submit">Add Friend</button>
                     </form>

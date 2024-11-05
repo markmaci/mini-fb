@@ -1,14 +1,13 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-
-# Create your views here.
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
-from .models import Image, Profile, StatusMessage, Friend
+from .models import Image, Profile, StatusMessage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
-
 
 class ShowAllProfilesView(ListView):
     model = Profile
@@ -30,106 +29,140 @@ class CreateProfileView(CreateView):
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.method == 'GET':
+            context['user_form'] = UserCreationForm()
+        else:
+            context['user_form'] = UserCreationForm(self.request.POST)
+        return context
 
-class CreateStatusMessageView(CreateView):
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.form_class(self.request.POST)
+        user_form = UserCreationForm(self.request.POST)
+
+        if form.is_valid() and user_form.is_valid():
+            return self.form_valid(form, user_form)
+        else:
+            return self.form_invalid(form, user_form)
+
+    def form_valid(self, form, user_form):
+        user = user_form.save()
+        profile = form.save(commit=False)
+        profile.user = user
+        profile.save()
+        login(self.request, user)
+        return redirect('mini_fb:show_profile', pk=profile.pk)
+
+    def form_invalid(self, form, user_form):
+        return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
+
+
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = 'mini_fb/update_profile_form.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user.profile
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().user != request.user:
+            messages.error(request, "You can only update your own profile.")
+            return redirect('mini_fb:show_profile', pk=self.get_object().pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('mini_fb:show_profile', args=[self.object.pk])
+
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     model = StatusMessage
     form_class = CreateStatusMessageForm
     template_name = 'mini_fb/create_status_form.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        profile_pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(pk=profile_pk)
-        context['profile'] = profile
-        return context
-
     def form_valid(self, form):
         status_message = form.save(commit=False)
-        profile_pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(pk=profile_pk)
-        status_message.profile = profile
+        status_message.profile = self.request.user.profile
         status_message.save()
 
         files = self.request.FILES.getlist('files')
         for f in files:
             Image.objects.create(status_message=status_message, image_file=f)
-        
+
         return redirect(status_message.get_absolute_url())
 
     def get_success_url(self):
-        return reverse('mini_fb:show_profile', args=[self.kwargs.get('pk')])
-class UpdateProfileView(UpdateView):
-    model = Profile
-    form_class = UpdateProfileForm
-    template_name = 'mini_fb/update_profile_form.html'
+        return reverse('mini_fb:show_profile', args=[self.request.user.profile.pk])
+
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
+    model = StatusMessage
+    form_class = CreateStatusMessageForm
+    template_name = 'mini_fb/update_status_form.html'
+    context_object_name = 'status'
+
+    def dispatch(self, request, *args, **kwargs):
+        status_message = self.get_object()
+        if status_message.profile.user != request.user:
+            messages.error(request, "You can only update your own status messages.")
+            return redirect('mini_fb:show_profile', pk=status_message.profile.pk)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('mini_fb:show_profile', args=[self.object.pk])
+        return reverse('mini_fb:show_profile', args=[self.object.profile.pk])
 
-class DeleteStatusMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     model = StatusMessage
     template_name = 'mini_fb/delete_status_form.html'
     context_object_name = 'status'
 
-    def get_success_url(self):
-        return reverse('mini_fb:show_profile', args=[self.object.profile.pk])
-    
-class UpdateStatusMessageView(UpdateView):
-    model = StatusMessage
-    form_class = CreateStatusMessageForm  # Reuse the form for creating status
-    template_name = 'mini_fb/update_status_form.html'
-    context_object_name = 'status'
+    def dispatch(self, request, *args, **kwargs):
+        status_message = self.get_object()
+        if status_message.profile.user != request.user:
+            messages.error(request, "You can only delete your own status messages.")
+            return redirect('mini_fb:show_profile', pk=status_message.profile.pk)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('mini_fb:show_profile', args=[self.object.profile.pk])
-    
-class CreateFriendView(View):
-    def get(self, request, pk, other_pk, *args, **kwargs):
-        profile = get_object_or_404(Profile, pk=pk)
-        other_profile = get_object_or_404(Profile, pk=other_pk)
-        
-        friendship_created = profile.add_friend(other_profile)
-        
-        if friendship_created:
-            messages.success(request, f"You are now friends with {other_profile.first_name} {other_profile.last_name}!")
-        else:
-            messages.error(request, "Cannot add this friend. They may already be your friend or you cannot add yourself.")
-        
-        return redirect('mini_fb:show_profile', pk=pk)
-    
-class ShowNewsFeedView(DetailView):
+
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'mini_fb/news_feed.html'
     context_object_name = 'profile'
+
+    def get_object(self):
+        return self.request.user.profile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = self.object
         context['news_feed'] = profile.get_news_feed()
         return context
-    
-class ShowFriendSuggestionsView(DetailView):
+
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = 'mini_fb/friend_suggestions.html'
     context_object_name = 'profile'
 
+    def get_object(self):
+        return self.request.user.profile
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = self.get_object()
+        profile = self.object
         suggestions = profile.get_friend_suggestions()
         context['suggestions'] = suggestions
         return context
 
-class AddFriendView(View):
-    def post(self, request, pk, other_pk):
-        profile = get_object_or_404(Profile, pk=pk)
+class AddFriendView(LoginRequiredMixin, View):
+    def post(self, request, other_pk):
+        profile = request.user.profile
         other_profile = get_object_or_404(Profile, pk=other_pk)
-        
+
         if profile.add_friend(other_profile):
             messages.success(request, f"You are now friends with {other_profile.first_name} {other_profile.last_name}!")
         else:
-            messages.info(request, f"You are already friends with {other_profile.first_name} {other_profile.last_name}, or cannot add yourself.")
-        
-        return redirect(reverse('mini_fb:show_friend_suggestions', args=[pk]))
+            messages.info(request, "Cannot add this friend.")
+
+        return redirect('mini_fb:friend_suggestions')

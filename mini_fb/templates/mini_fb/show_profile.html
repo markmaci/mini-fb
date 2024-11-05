@@ -41,7 +41,7 @@
 <h3>Friend Suggestions</h3>
 <ul class="friend-suggestions-link">
     <li>
-        <a href="{% url 'mini_fb:friend_suggestions' profile.pk %}">View Friend Suggestions</a>
+        <a href="{% url 'mini_fb:friend_suggestions' %}">View Friend Suggestions</a>
     </li>
 </ul>
 
@@ -59,22 +59,23 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <a href="{% url 'mini_fb:update_status' status.pk %}">Edit</a>
-            |
-            <a href="{% url 'mini_fb:delete_status' status.pk %}">Delete</a>
+            {% if user.is_authenticated and profile.user == user %}
+                <a href="{% url 'mini_fb:update_status' status.pk %}">Edit</a>
+                |
+                <a href="{% url 'mini_fb:delete_status' status.pk %}">Delete</a>
+            {% endif %}
         </li>
     {% empty %}
         <li>No status messages yet.</li>
     {% endfor %}
 </ul>
 
-<div class="links">
-    <a href="{% url 'mini_fb:show_all_profiles' %}">Back to All Profiles</a>
-    <br>
-    <a href="{% url 'mini_fb:create_status' profile.pk %}">Post a New Status Message</a>
-    <br>
-    <a href="{% url 'mini_fb:update_profile' profile.pk %}">Edit Profile</a>
-    <br>
-    <a href="{% url 'mini_fb:show_news_feed' profile.pk %}">View News Feed</a>
-</div>
+{% if user.is_authenticated and profile.user == user %}
+    <div class="links">
+        <a href="{% url 'mini_fb:update_profile' %}">Edit Profile</a>
+        <a href="{% url 'mini_fb:create_status' %}">Post a New Status Message</a>
+        <a href="{% url 'mini_fb:show_news_feed' %}">View News Feed</a>
+        <a href="{% url 'mini_fb:friend_suggestions' %}">Friend Suggestions</a>
+    </div>
+{% endif %}
 {% endblock %}

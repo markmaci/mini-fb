@@ -1,10 +1,47 @@
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-<h2>Create a New Profile</h2>
-<form method="POST" class="profile-form">
+<h2>Register</h2>
+
+{% if user_form.non_field_errors %}
+    <div class="errorlist">
+        {{ user_form.non_field_errors }}
+    </div>
+{% endif %}
+{% if form.non_field_errors %}
+    <div class="errorlist">
+        {{ form.non_field_errors }}
+    </div>
+{% endif %}
+
+<form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Create Profile</button>
+    <h3>User Account Information</h3>
+    {% for field in user_form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="errorlist">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <h3>Profile Information</h3>
+    {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div class="errorlist">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit">Register</button>
 </form>
 {% endblock %}
