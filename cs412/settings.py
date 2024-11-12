@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'quotes',
     'ushqim',
     'mini_fb',
+    'voter_analytics',
     # 'storages',
 ]
 

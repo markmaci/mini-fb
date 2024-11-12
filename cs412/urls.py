@@ -24,6 +24,7 @@ urlpatterns = [
     path('quote/', include('quotes.urls')), # Test to see if we can move to /obiwanquotes wihtout blowing up
     path('ushqim/', include('ushqim.urls')),
     path('mini_fb/', include('mini_fb.urls')),
+    path('voter_analytics/', include('voter_analytics.urls', namespace='voter_analytics')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
